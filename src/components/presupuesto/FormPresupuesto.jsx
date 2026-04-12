@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Modal } from '../ui/Modal'
 import { Input } from '../ui/Input'
+import { CurrencyInput } from '../ui/CurrencyInput'
 import { Select } from '../ui/Select'
 import { Button } from '../ui/Button'
 import { CATEGORIAS_VARIABLES, CATEGORIAS_FIJAS } from '../../config'
@@ -37,12 +38,10 @@ export function FormPresupuesto({ open, onClose, onSave, mes, año, existente })
           <option value="">Seleccionar categoría...</option>
           {TODAS.map((c) => <option key={c.nombre} value={c.nombre}>{c.nombre}</option>)}
         </Select>
-        <Input
-          label="Límite mensual (COP)"
-          type="number"
-          placeholder="ej. 500000"
+        <CurrencyInput
+          label="Límite mensual"
           value={form.limite}
-          onChange={(e) => setForm((f) => ({ ...f, limite: e.target.value }))}
+          onChange={(v) => setForm((f) => ({ ...f, limite: v }))}
         />
         {error && <p className="text-xs text-red-500">{error}</p>}
         <div className="flex gap-2 justify-end pt-1">

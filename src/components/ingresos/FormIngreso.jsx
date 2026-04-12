@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Modal } from '../ui/Modal'
 import { Input } from '../ui/Input'
+import { CurrencyInput } from '../ui/CurrencyInput'
 import { Select } from '../ui/Select'
 import { Button } from '../ui/Button'
 import { FUENTES_INGRESO } from '../../config'
@@ -75,12 +76,10 @@ export function FormIngreso({ open, onClose, onSave }) {
           </div>
         )}
 
-        <Input
-          label="Monto (COP)"
-          type="number"
-          placeholder="0"
+        <CurrencyInput
+          label="Monto"
           value={form.monto}
-          onChange={(e) => set('monto', e.target.value)}
+          onChange={(v) => set('monto', v)}
         />
 
         <Input

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { History } from 'lucide-react'
 import { Modal } from '../ui/Modal'
 import { Input } from '../ui/Input'
+import { CurrencyInput } from '../ui/CurrencyInput'
 import { Select } from '../ui/Select'
 import { Button } from '../ui/Button'
 import { TODAS_CATEGORIAS, RANGOS_MONTO, CATEGORIAS_FIJAS_NOMBRES } from '../../config'
@@ -191,12 +192,12 @@ export function FormTransaccion({ open, onClose, onSave, recientes = [], presupu
         </div>
 
         {/* Monto exacto (editable) */}
-        <Input
+        <CurrencyInput
           label="Monto exacto (COP)"
-          type="number"
-          placeholder="0"
+
+
           value={form.monto}
-          onChange={(e) => set('monto', e.target.value)}
+          onChange={(v) => set('monto', v)}
         />
 
         <Input label="Descripción" placeholder="ej. Rappi, Netflix, Supermercado..." value={form.descripcion} onChange={(e) => set('descripcion', e.target.value)} />

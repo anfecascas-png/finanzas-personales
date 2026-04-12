@@ -36,26 +36,15 @@ export function Transacciones({ mes, año, onMesChange, onAñoChange }) {
     return matchSearch && matchCat && matchTipo
   })
 
-  async function handleSaveGasto(data) {
-    await addTransaccion(data)
-    await refresh()
-  }
-
+  async function handleSaveGasto(data) { await addTransaccion(data); await refresh() }
   async function handleDeleteGasto(rowIndex) {
     if (!confirm('¿Eliminar este gasto?')) return
-    await deleteTransaccion(rowIndex)
-    await refresh()
+    await deleteTransaccion(rowIndex); await refresh()
   }
-
-  async function handleSaveIngreso(data) {
-    await addIngreso(data)
-    await refresh()
-  }
-
+  async function handleSaveIngreso(data) { await addIngreso(data); await refresh() }
   async function handleDeleteIngreso(rowIndex) {
     if (!confirm('¿Eliminar este ingreso?')) return
-    await deleteIngreso(rowIndex)
-    await refresh()
+    await deleteIngreso(rowIndex); await refresh()
   }
 
   return (
@@ -64,30 +53,31 @@ export function Transacciones({ mes, año, onMesChange, onAñoChange }) {
 
       <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 pb-24 md:pb-6">
 
-        {/* Resumen rápido */}
-        <div className="grid grid-cols-2 gap-4">
-          <div className="bg-green-50 dark:bg-green-900/20 rounded-xl px-5 py-4 flex items-center justify-between">
-            <span className="text-sm font-medium text-green-700 dark:text-green-400">Total ingresos</span>
-            <span className="text-lg font-bold text-green-700 dark:text-green-400 tabular-nums">{formatCOP(totalIngresos)}</span>
+        {/* Resumen rápido — columnas en mobile */}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="bg-green-50 dark:bg-green-900/20 rounded-2xl px-4 py-3">
+            <p className="text-xs font-medium text-green-700 dark:text-green-400 mb-1">Ingresos</p>
+            <p className="text-base font-bold text-green-700 dark:text-green-400 tabular-nums leading-tight">{formatCOP(totalIngresos)}</p>
           </div>
-          <div className="bg-red-50 dark:bg-red-900/20 rounded-xl px-5 py-4 flex items-center justify-between">
-            <span className="text-sm font-medium text-red-600 dark:text-red-400">Total gastos</span>
-            <span className="text-lg font-bold text-red-600 dark:text-red-400 tabular-nums">{formatCOP(totalGastos)}</span>
+          <div className="bg-red-50 dark:bg-red-900/20 rounded-2xl px-4 py-3">
+            <p className="text-xs font-medium text-red-600 dark:text-red-400 mb-1">Gastos</p>
+            <p className="text-base font-bold text-red-600 dark:text-red-400 tabular-nums leading-tight">{formatCOP(totalGastos)}</p>
           </div>
         </div>
 
-        {/* Tabs */}
-        <div className="flex items-center justify-between">
-          <div className="flex gap-1 bg-gray-100 dark:bg-gray-800 p-1 rounded-xl">
+        {/* Tabs + acciones */}
+        <div className="flex items-center gap-2">
+          {/* Tab switcher */}
+          <div className="flex gap-1 bg-gray-100 dark:bg-gray-800 p-1 rounded-xl flex-1 md:flex-none">
             {TABS.map(({ id, label }) => (
               <button
                 key={id}
                 onClick={() => setTab(id)}
                 className={cn(
-                  'px-5 py-2 rounded-lg text-sm font-medium transition-all duration-150',
+                  'flex-1 md:flex-none px-4 py-2 rounded-lg text-sm font-medium transition-all duration-150',
                   tab === id
                     ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm'
-                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                    : 'text-gray-500 dark:text-gray-400'
                 )}
               >
                 {label}
@@ -95,25 +85,28 @@ export function Transacciones({ mes, año, onMesChange, onAñoChange }) {
             ))}
           </div>
 
-          <div className="flex gap-2">
-            <Button variant="secondary" size="icon" onClick={refresh} title="Refrescar">
-              <RefreshCw size={15} />
+          {/* Botones */}
+          <Button variant="secondary" size="icon" onClick={refresh} title="Refrescar" className="shrink-0">
+            <RefreshCw size={15} />
+          </Button>
+          {tab === 'gastos' ? (
+            <Button onClick={() => setModalGasto(true)} className="shrink-0">
+              <Plus size={15} />
+              <span className="hidden sm:inline">Nuevo gasto</span>
+              <span className="sm:hidden">Nuevo</span>
             </Button>
-            {tab === 'gastos' ? (
-              <Button onClick={() => setModalGasto(true)}>
-                <Plus size={15} /> Nuevo gasto
-              </Button>
-            ) : (
-              <Button onClick={() => setModalIngreso(true)}>
-                <Plus size={15} /> Nuevo ingreso
-              </Button>
-            )}
-          </div>
+          ) : (
+            <Button onClick={() => setModalIngreso(true)} className="shrink-0">
+              <Plus size={15} />
+              <span className="hidden sm:inline">Nuevo ingreso</span>
+              <span className="sm:hidden">Nuevo</span>
+            </Button>
+          )}
         </div>
 
-        {/* Contenido del tab */}
+        {/* Contenido */}
         {tab === 'gastos' && (
-          <Card>
+          <Card className="!p-4 md:!p-6">
             <div className="mb-4">
               <FiltrosTransacciones
                 search={search} onSearch={setSearch}
@@ -126,7 +119,7 @@ export function Transacciones({ mes, año, onMesChange, onAñoChange }) {
         )}
 
         {tab === 'ingresos' && (
-          <Card>
+          <Card className="!p-4 md:!p-6">
             <TablaIngresos rows={ingresos} onDelete={handleDeleteIngreso} loading={loading} />
           </Card>
         )}

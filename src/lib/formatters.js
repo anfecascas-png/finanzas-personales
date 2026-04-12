@@ -2,13 +2,14 @@ import { format, parseISO } from 'date-fns'
 import { es } from 'date-fns/locale'
 
 export function formatCOP(amount) {
-  if (amount === null || amount === undefined || isNaN(Number(amount))) return '$ 0'
+  if (amount === null || amount === undefined || isNaN(Number(amount))) return '$0'
+  // es-CO añade un espacio especial entre $ y el número — lo quitamos
   return new Intl.NumberFormat('es-CO', {
     style: 'currency',
     currency: 'COP',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(Number(amount))
+  }).format(Number(amount)).replace(/[\u00a0\u202f\s]+/, '')
 }
 
 export function formatFecha(dateStr) {
@@ -36,7 +37,7 @@ export function todayISO() {
 }
 
 export function mesActual() {
-  return new Date().getMonth() + 1 // 1-12
+  return new Date().getMonth() + 1
 }
 
 export function añoActual() {

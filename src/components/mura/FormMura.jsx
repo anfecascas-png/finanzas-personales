@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Modal } from '../ui/Modal'
 import { Input } from '../ui/Input'
+import { CurrencyInput } from '../ui/CurrencyInput'
 import { Select } from '../ui/Select'
 import { Button } from '../ui/Button'
 import { CATEGORIAS_MURA } from '../../config'
@@ -44,7 +45,7 @@ export function FormMura({ open, onClose, onSave }) {
         </div>
         <Input label="Concepto" placeholder="ej. Venta cafés, Compra insumos..." value={form.concepto} onChange={(e) => set('concepto', e.target.value)} />
         <div className="grid grid-cols-2 gap-3">
-          <Input label="Monto (COP)" type="number" placeholder="0" value={form.monto} onChange={(e) => set('monto', e.target.value)} />
+          <CurrencyInput label="Monto" value={form.monto} onChange={(v) => set('monto', v)} />
           <Select label="Categoría" value={form.categoriaMura} onChange={(e) => set('categoriaMura', e.target.value)}>
             <option value="">Seleccionar...</option>
             {CATEGORIAS_MURA.map((c) => <option key={c} value={c}>{c}</option>)}

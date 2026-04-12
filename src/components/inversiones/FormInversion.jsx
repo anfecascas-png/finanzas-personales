@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Modal } from '../ui/Modal'
 import { Input } from '../ui/Input'
+import { CurrencyInput } from '../ui/CurrencyInput'
 import { Select } from '../ui/Select'
 import { Button } from '../ui/Button'
 import { TIPOS_INVERSION } from '../../config'
@@ -53,8 +54,8 @@ export function FormInversion({ open, onClose, onSave }) {
         </div>
         <Input label="Descripción" placeholder="ej. Bolsillo vacaciones, Acciones ETF..." value={form.descripcion} onChange={(e) => set('descripcion', e.target.value)} />
         <div className="grid grid-cols-2 gap-3">
-          <Input label="Monto (COP)" type="number" placeholder="0" value={form.monto} onChange={(e) => set('monto', e.target.value)} />
-          <Input label="Saldo actual (COP)" type="number" placeholder="0" value={form.saldoActual} onChange={(e) => set('saldoActual', e.target.value)} />
+          <CurrencyInput label="Monto" value={form.monto} onChange={(v) => set('monto', v)} />
+          <CurrencyInput label="Saldo actual" value={form.saldoActual} onChange={(v) => set('saldoActual', v)} />
         </div>
         <Input label="Notas (opcional)" value={form.notas} onChange={(e) => set('notas', e.target.value)} />
         {error && <p className="text-xs text-red-500">{error}</p>}
