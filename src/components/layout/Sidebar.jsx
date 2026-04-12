@@ -23,7 +23,7 @@ export function Sidebar() {
     : null
 
   return (
-    <aside className="w-60 min-h-screen bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 flex flex-col py-6 px-3 shrink-0">
+    <aside className="hidden md:flex w-60 min-h-screen bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 flex-col py-6 px-3 shrink-0">
       {/* Logo */}
       <div className="px-3 mb-8">
         <div className="flex items-center gap-2">
@@ -49,7 +49,7 @@ export function Sidebar() {
                 'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150',
                 isActive
                   ? 'bg-brand-500 text-white shadow-sm'
-                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100'
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-orange-50 dark:hover:bg-gray-800 hover:text-brand-600 dark:hover:text-gray-100'
               )
             }
           >
@@ -65,7 +65,7 @@ export function Sidebar() {
           href={sheetUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-500 dark:text-gray-500 hover:bg-green-50 dark:hover:bg-green-900/20 hover:text-brand-600 dark:hover:text-brand-400 transition-all duration-150 mb-1"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-500 dark:text-gray-500 hover:bg-orange-50 dark:hover:bg-orange-900/20 hover:text-brand-600 dark:hover:text-brand-400 transition-all duration-150 mb-1"
         >
           <ExternalLink size={16} />
           Ver Google Sheet

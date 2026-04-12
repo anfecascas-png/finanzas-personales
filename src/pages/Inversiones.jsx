@@ -29,7 +29,7 @@ export function Inversiones({ mes, año, onMesChange, onAñoChange }) {
     <div className="flex flex-col flex-1 min-h-0">
       <TopBar mes={mes} año={año} onMesChange={onMesChange} onAñoChange={onAñoChange} title="Inversiones & Ahorros" />
 
-      <div className="flex-1 overflow-y-auto p-6 space-y-6">
+      <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 md:space-y-6 pb-24 md:pb-6">
         <ResumenInversiones saldoPorTipo={saldoPorTipo} totalAhorros={totalAhorros} loading={loading} />
 
         <Card>

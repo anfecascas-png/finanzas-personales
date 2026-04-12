@@ -6,6 +6,7 @@ import { ThemeProvider } from './context/ThemeContext'
 import { useGoogleAuth } from './hooks/useGoogleAuth'
 import { GOOGLE_CLIENT_ID } from './config'
 import { Sidebar } from './components/layout/Sidebar'
+import { BottomNav } from './components/layout/BottomNav'
 import { Login } from './pages/Login'
 import { Dashboard } from './pages/Dashboard'
 import { Transacciones } from './pages/Transacciones'
@@ -32,7 +33,10 @@ function AppInner() {
     <AuthContext.Provider value={auth}>
       <BrowserRouter>
         <div className="flex min-h-screen bg-gray-50 dark:bg-gray-950">
+          {/* Sidebar: solo desktop */}
           <Sidebar />
+
+          {/* Contenido principal */}
           <main className="flex-1 flex flex-col min-h-screen overflow-hidden">
             {auth.initializing ? (
               <div className="flex-1 flex items-center justify-center">
@@ -55,6 +59,9 @@ function AppInner() {
               </Routes>
             )}
           </main>
+
+          {/* Bottom nav: solo mobile */}
+          <BottomNav />
         </div>
       </BrowserRouter>
     </AuthContext.Provider>

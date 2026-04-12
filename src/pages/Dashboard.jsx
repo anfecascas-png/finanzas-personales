@@ -27,7 +27,7 @@ export function Dashboard({ mes, año, onMesChange, onAñoChange }) {
     <div className="flex flex-col flex-1 min-h-0">
       <TopBar mes={mes} año={año} onMesChange={onMesChange} onAñoChange={onAñoChange} title="Dashboard" />
 
-      <div className="flex-1 overflow-y-auto p-6 space-y-6">
+      <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 md:space-y-6 pb-24 md:pb-6">
         {f.error && (
           <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-xl text-sm text-red-600 dark:text-red-400">
             Error cargando datos: {f.error}
