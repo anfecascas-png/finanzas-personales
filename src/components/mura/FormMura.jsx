@@ -23,7 +23,7 @@ export function FormMura({ open, onClose, onSave }) {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    if (!form.concepto || !form.monto) { setError('Concepto y monto son obligatorios'); return }
+    if (!form.concepto || !form.monto) { setError('Concept and amount are required'); return }
     setLoading(true); setError('')
     try {
       await onSave({ ...form, monto: Number(form.monto) })
@@ -34,28 +34,29 @@ export function FormMura({ open, onClose, onSave }) {
   }
 
   return (
-    <Modal open={open} onClose={onClose} title="Nuevo movimiento — Mura Café">
+    <Modal open={open} onClose={onClose} title="New Mura Café entry">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-3">
-          <Input label="Fecha" type="date" value={form.fecha} onChange={(e) => set('fecha', e.target.value)} />
-          <Select label="Tipo" value={form.tipo} onChange={(e) => set('tipo', e.target.value)}>
-            <option value="Ingreso">Ingreso</option>
-            <option value="Gasto">Gasto</option>
+          <Input label="Date" type="date" value={form.fecha} onChange={(e) => set('fecha', e.target.value)} />
+          <Select label="Type" value={form.tipo} onChange={(e) => set('tipo', e.target.value)}>
+            <option value="Ingreso">Income</option>
+            <option value="Gasto">Expense</option>
+            <option value="Base">Base / Investment</option>
           </Select>
         </div>
-        <Input label="Concepto" placeholder="ej. Venta cafés, Compra insumos..." value={form.concepto} onChange={(e) => set('concepto', e.target.value)} />
+        <Input label="Concept" placeholder="e.g. Coffee sales, Supply purchase..." value={form.concepto} onChange={(e) => set('concepto', e.target.value)} />
         <div className="grid grid-cols-2 gap-3">
-          <CurrencyInput label="Monto" value={form.monto} onChange={(v) => set('monto', v)} />
-          <Select label="Categoría" value={form.categoriaMura} onChange={(e) => set('categoriaMura', e.target.value)}>
-            <option value="">Seleccionar...</option>
+          <CurrencyInput label="Amount" value={form.monto} onChange={(v) => set('monto', v)} />
+          <Select label="Category" value={form.categoriaMura} onChange={(e) => set('categoriaMura', e.target.value)}>
+            <option value="">Select...</option>
             {CATEGORIAS_MURA.map((c) => <option key={c} value={c}>{c}</option>)}
           </Select>
         </div>
-        <Input label="Notas (opcional)" value={form.notas} onChange={(e) => set('notas', e.target.value)} />
+        <Input label="Notes (optional)" value={form.notas} onChange={(e) => set('notas', e.target.value)} />
         {error && <p className="text-xs text-red-500">{error}</p>}
         <div className="flex gap-2 justify-end pt-1">
-          <Button type="button" variant="secondary" onClick={onClose}>Cancelar</Button>
-          <Button type="submit" variant="mura" loading={loading}>Guardar</Button>
+          <Button type="button" variant="secondary" onClick={onClose}>Cancel</Button>
+          <Button type="submit" variant="mura" loading={loading}>Save</Button>
         </div>
       </form>
     </Modal>

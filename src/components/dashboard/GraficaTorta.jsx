@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { Card, CardHeader, CardTitle } from '../ui/Card'
 import { formatCOP } from '../../lib/formatters'
@@ -35,13 +36,14 @@ function renderPorcentaje({ cx, cy, midAngle, innerRadius, outerRadius, percent 
 
 export function GraficaTorta({ data, loading }) {
   const { dark } = useTheme()
+  const [showLegend, setShowLegend] = useState(true)
   const total = data?.reduce((s, d) => s + d.value, 0) || 0
   const dataConTotal = data?.map((d) => ({ ...d, total })) || []
 
   if (loading) {
     return (
       <Card>
-        <CardHeader><CardTitle>Gastos por categoría</CardTitle></CardHeader>
+        <CardHeader><CardTitle>Spending Breakdown</CardTitle></CardHeader>
         <div className="h-56 bg-gray-50 dark:bg-gray-800 rounded-xl animate-pulse" />
       </Card>
     )
@@ -49,15 +51,20 @@ export function GraficaTorta({ data, loading }) {
   if (!data?.length) {
     return (
       <Card>
-        <CardHeader><CardTitle>Gastos por categoría</CardTitle></CardHeader>
-        <div className="h-56 flex items-center justify-center text-sm text-gray-400 dark:text-gray-500">Sin datos este mes</div>
+        <CardHeader><CardTitle>Spending Breakdown</CardTitle></CardHeader>
+        <div className="h-56 flex items-center justify-center text-sm text-gray-400 dark:text-gray-500">No data this month</div>
       </Card>
     )
   }
 
   return (
     <Card>
-      <CardHeader><CardTitle>Distribución del mes</CardTitle></CardHeader>
+      <CardHeader>
+        <CardTitle>Spending Breakdown</CardTitle>
+        <button onClick={() => setShowLegend(v => !v)} className="text-xs text-gray-400 hover:text-brand-500 transition-colors">
+          {showLegend ? 'Hide' : 'Show'} legend
+        </button>
+      </CardHeader>
       <ResponsiveContainer width="100%" height={230}>
         <PieChart>
           <Pie data={dataConTotal} cx="50%" cy="50%" innerRadius={50} outerRadius={85} paddingAngle={3} dataKey="value" labelLine={false} label={renderPorcentaje}>
@@ -66,7 +73,7 @@ export function GraficaTorta({ data, loading }) {
             ))}
           </Pie>
           <Tooltip content={<CustomTooltip />} />
-          <Legend iconType="circle" iconSize={8} formatter={(v) => <span className="text-xs text-gray-600 dark:text-gray-400">{v}</span>} />
+          {showLegend && <Legend iconType="circle" iconSize={8} formatter={(v) => <span className="text-xs text-gray-600 dark:text-gray-400">{v}</span>} />}
         </PieChart>
       </ResponsiveContainer>
     </Card>

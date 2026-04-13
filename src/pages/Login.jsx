@@ -12,14 +12,14 @@ export function Login() {
           <div className="w-16 h-16 rounded-2xl bg-brand-500 flex items-center justify-center mx-auto mb-4 shadow-lg">
             <span className="text-white font-bold text-2xl">F</span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Finanzas Personales</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Personal Finance</h1>
           <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Phil · Colombia · COP</p>
         </div>
 
         {/* Card */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-8">
           <p className="text-gray-600 dark:text-gray-400 text-sm text-center mb-6">
-            Conecta tu cuenta de Google para acceder a tu panel financiero y sincronizar con Google Sheets.
+            Connect your Google account to access your financial dashboard and sync with Google Sheets.
           </p>
 
           <button
@@ -33,7 +33,7 @@ export function Login() {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                 </svg>
-                {initializing ? 'Configurando tu spreadsheet...' : 'Conectando...'}
+                {initializing ? 'Setting up your spreadsheet...' : 'Connecting...'}
               </>
             ) : (
               <>
@@ -43,7 +43,7 @@ export function Login() {
                   <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
                   <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
                 </svg>
-                Continuar con Google
+                Continue with Google
               </>
             )}
           </button>
@@ -56,7 +56,7 @@ export function Login() {
         </div>
 
         <p className="text-center text-xs text-gray-400 dark:text-gray-500 mt-6">
-          Solo tú tienes acceso a tus datos. Tu Google Sheet vive en tu Drive.
+          Only you have access to your data. Your Google Sheet lives in your Drive.
         </p>
       </div>
     </div>

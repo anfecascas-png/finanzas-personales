@@ -3,11 +3,11 @@ import { LayoutDashboard, ArrowLeftRight, Target, TrendingUp, Coffee } from 'luc
 import { cn } from '../../lib/utils'
 
 const NAV_ITEMS = [
-  { to: '/', icon: LayoutDashboard, label: 'Inicio', activeColor: 'text-brand-500', activeBg: 'bg-brand-50 dark:bg-brand-500/10' },
-  { to: '/transacciones', icon: ArrowLeftRight, label: 'Gastos', activeColor: 'text-brand-500', activeBg: 'bg-brand-50 dark:bg-brand-500/10' },
-  { to: '/presupuesto', icon: Target, label: 'Budget', activeColor: 'text-brand-500', activeBg: 'bg-brand-50 dark:bg-brand-500/10' },
-  { to: '/inversiones', icon: TrendingUp, label: 'Ahorros', activeColor: 'text-brand-500', activeBg: 'bg-brand-50 dark:bg-brand-500/10' },
-  { to: '/mura', icon: Coffee, label: 'Mura', activeColor: 'text-mura-500', activeBg: 'bg-mura-50 dark:bg-mura-500/10' },
+  { to: '/', icon: LayoutDashboard, label: 'Home', activeColor: 'text-orange-500', activeBg: 'bg-orange-50 dark:bg-orange-500/10' },
+  { to: '/transacciones', icon: ArrowLeftRight, label: 'Expenses', activeColor: 'text-red-500', activeBg: 'bg-red-50 dark:bg-red-500/10' },
+  { to: '/presupuesto', icon: Target, label: 'Budget', activeColor: 'text-emerald-500', activeBg: 'bg-emerald-50 dark:bg-emerald-500/10' },
+  { to: '/inversiones', icon: TrendingUp, label: 'Savings', activeColor: 'text-purple-500', activeBg: 'bg-purple-50 dark:bg-purple-500/10' },
+  { to: '/mura', icon: Coffee, label: 'Mura', activeColor: 'text-blue-500', activeBg: 'bg-blue-50 dark:bg-blue-500/10' },
 ]
 
 export function BottomNav() {
@@ -23,10 +23,8 @@ export function BottomNav() {
             to={to}
             end={to === '/'}
             className={({ isActive }) =>
-              cn(
-                'flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-2xl transition-all duration-150',
-                isActive ? activeColor : 'text-gray-400 dark:text-gray-500'
-              )
+              cn('flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-2xl transition-all duration-150',
+                isActive ? activeColor : 'text-gray-400 dark:text-gray-500')
             }
           >
             {({ isActive }) => (

@@ -11,8 +11,8 @@ export function TarjetaPresupuesto({ categoria, limite, gastado, porcentaje, lab
         <div>
           <div className="flex items-center gap-2">
             <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">{categoria}</p>
-            {esFijo && <span className="text-xs text-gray-400 dark:text-gray-500">Fijo</span>}
-            {carryForward && <span className="text-xs text-blue-400 dark:text-blue-500">Heredado</span>}
+            {esFijo && <span className="text-xs text-gray-400 dark:text-gray-500">Fixed</span>}
+            {carryForward && <span className="text-xs text-blue-400 dark:text-blue-500">Inherited</span>}
           </div>
           <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
             {formatCOP(gastado)} de {formatCOP(limite)}
@@ -24,16 +24,16 @@ export function TarjetaPresupuesto({ categoria, limite, gastado, porcentaje, lab
             onClick={onEditar}
             className="text-xs text-gray-400 dark:text-gray-500 hover:text-brand-600 dark:hover:text-brand-400 transition-colors font-medium"
           >
-            Editar
+            Edit
           </button>
         </div>
       </div>
       <ProgressBar value={gastado} max={limite} />
       <div className="flex items-center justify-between mt-1.5">
         <p className="text-xs text-gray-400 dark:text-gray-500">
-          {pendiente > 0 ? `${formatCOP(pendiente)} pendiente` : ''}
+          {pendiente > 0 ? `${formatCOP(pendiente)} remaining` : ''}
         </p>
-        <p className="text-xs text-gray-400 dark:text-gray-500">{porcentaje}% usado</p>
+        <p className="text-xs text-gray-400 dark:text-gray-500">{porcentaje}% used</p>
       </div>
     </div>
   )

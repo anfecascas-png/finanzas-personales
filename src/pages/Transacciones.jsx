@@ -14,8 +14,8 @@ import { formatCOP } from '../lib/formatters'
 import { cn } from '../lib/utils'
 
 const TABS = [
-  { id: 'gastos', label: 'Gastos' },
-  { id: 'ingresos', label: 'Ingresos' },
+  { id: 'gastos', label: 'Expenses' },
+  { id: 'ingresos', label: 'Income' },
 ]
 
 export function Transacciones({ mes, año, onMesChange, onAñoChange }) {
@@ -38,18 +38,18 @@ export function Transacciones({ mes, año, onMesChange, onAñoChange }) {
 
   async function handleSaveGasto(data) { await addTransaccion(data); await refresh() }
   async function handleDeleteGasto(rowIndex) {
-    if (!confirm('¿Eliminar este gasto?')) return
+    if (!confirm('Delete this expense?')) return
     await deleteTransaccion(rowIndex); await refresh()
   }
   async function handleSaveIngreso(data) { await addIngreso(data); await refresh() }
   async function handleDeleteIngreso(rowIndex) {
-    if (!confirm('¿Eliminar este ingreso?')) return
+    if (!confirm('Delete this income?')) return
     await deleteIngreso(rowIndex); await refresh()
   }
 
   return (
     <div className="flex flex-col flex-1 min-h-0">
-      <TopBar mes={mes} año={año} onMesChange={onMesChange} onAñoChange={onAñoChange} title="Transacciones" />
+      <TopBar mes={mes} año={año} onMesChange={onMesChange} onAñoChange={onAñoChange} title="Transactions" />
 
       <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 pb-24 md:pb-6">
 

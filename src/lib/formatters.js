@@ -56,3 +56,13 @@ export function parseMonto(val) {
   if (val === null || val === undefined || val === '') return 0
   return Number(String(val).replace(/[^0-9.-]/g, '')) || 0
 }
+
+export function formatCompact(amount) {
+  const n = Number(amount)
+  if (isNaN(n)) return '$0'
+  const abs = Math.abs(n)
+  const sign = n < 0 ? '-' : ''
+  if (abs >= 1_000_000) return `${sign}$${(abs / 1_000_000).toFixed(abs % 1_000_000 === 0 ? 0 : 1)}M`
+  if (abs >= 1_000) return `${sign}$${Math.round(abs / 1_000)}K`
+  return `${sign}$${abs.toLocaleString('es-CO')}`
+}

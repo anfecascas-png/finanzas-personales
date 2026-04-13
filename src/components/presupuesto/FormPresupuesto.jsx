@@ -18,7 +18,7 @@ export function FormPresupuesto({ open, onClose, onSave, mes, año, existente })
 
   async function handleSubmit(e) {
     e.preventDefault()
-    if (!form.categoria || !form.limite) { setError('Todos los campos son obligatorios'); return }
+    if (!form.categoria || !form.limite) { setError('All fields are required'); return }
     setLoading(true)
     setError('')
     try {
@@ -32,21 +32,21 @@ export function FormPresupuesto({ open, onClose, onSave, mes, año, existente })
   }
 
   return (
-    <Modal open={open} onClose={onClose} title={existente ? 'Editar límite' : 'Definir límite de presupuesto'}>
+    <Modal open={open} onClose={onClose} title={existente ? 'Edit limit' : 'Set budget limit'}>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <Select label="Categoría" value={form.categoria} onChange={(e) => setForm((f) => ({ ...f, categoria: e.target.value }))} disabled={!!existente}>
-          <option value="">Seleccionar categoría...</option>
+        <Select label="Category" value={form.categoria} onChange={(e) => setForm((f) => ({ ...f, categoria: e.target.value }))} disabled={!!existente}>
+          <option value="">Select category...</option>
           {TODAS.map((c) => <option key={c.nombre} value={c.nombre}>{c.nombre}</option>)}
         </Select>
         <CurrencyInput
-          label="Límite mensual"
+          label="Monthly limit"
           value={form.limite}
           onChange={(v) => setForm((f) => ({ ...f, limite: v }))}
         />
         {error && <p className="text-xs text-red-500">{error}</p>}
         <div className="flex gap-2 justify-end pt-1">
-          <Button type="button" variant="secondary" onClick={onClose}>Cancelar</Button>
-          <Button type="submit" loading={loading}>Guardar límite</Button>
+          <Button type="button" variant="secondary" onClick={onClose}>Cancel</Button>
+          <Button type="submit" loading={loading}>Save limit</Button>
         </div>
       </form>
     </Modal>

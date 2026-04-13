@@ -31,17 +31,17 @@ export function Presupuesto({ mes, año, onMesChange, onAñoChange }) {
 
   return (
     <div className="flex flex-col flex-1 min-h-0">
-      <TopBar mes={mes} año={año} onMesChange={onMesChange} onAñoChange={onAñoChange} title="Presupuesto" />
+      <TopBar mes={mes} año={año} onMesChange={onMesChange} onAñoChange={onAñoChange} title="Budget" />
 
       <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 pb-24 md:pb-6">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Límites por categoría</h2>
-            <p className="text-xs text-gray-400 dark:text-gray-500">Los fijos se heredan automáticamente del mes anterior</p>
+            <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Category limits</h2>
+            <p className="text-xs text-gray-400 dark:text-gray-500">Fixed categories carry forward from last month</p>
           </div>
           <div className="flex gap-2">
             <Button variant="secondary" size="icon" onClick={refresh}><RefreshCw size={15} /></Button>
-            <Button onClick={() => setModalOpen(true)}><Plus size={15} /> Agregar límite</Button>
+            <Button onClick={() => setModalOpen(true)}><Plus size={15} /> Add limit</Button>
           </div>
         </div>
 
@@ -53,8 +53,8 @@ export function Presupuesto({ mes, año, onMesChange, onAñoChange }) {
           </div>
         ) : presupuestoVsReal.length === 0 ? (
           <div className="text-center py-16">
-            <p className="text-gray-400 dark:text-gray-500 text-sm mb-4">No hay límites definidos para este mes</p>
-            <Button onClick={() => setModalOpen(true)}><Plus size={15} /> Crear mi primer límite</Button>
+            <p className="text-gray-400 dark:text-gray-500 text-sm mb-4">No limits defined for this month</p>
+            <Button onClick={() => setModalOpen(true)}><Plus size={15} /> Create first limit</Button>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">

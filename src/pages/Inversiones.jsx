@@ -20,24 +20,24 @@ export function Inversiones({ mes, año, onMesChange, onAñoChange }) {
   }
 
   async function handleDelete(rowIndex) {
-    if (!confirm('¿Eliminar este movimiento?')) return
+    if (!confirm('Delete this entry?')) return
     await deleteInversion(rowIndex)
     await refresh()
   }
 
   return (
     <div className="flex flex-col flex-1 min-h-0">
-      <TopBar mes={mes} año={año} onMesChange={onMesChange} onAñoChange={onAñoChange} title="Inversiones & Ahorros" />
+      <TopBar mes={mes} año={año} onMesChange={onMesChange} onAñoChange={onAñoChange} title="Savings & Investments" />
 
       <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 md:space-y-6 pb-24 md:pb-6">
         <ResumenInversiones saldoPorTipo={saldoPorTipo} totalAhorros={totalAhorros} loading={loading} />
 
         <Card>
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Historial de movimientos</h3>
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Movement history</h3>
             <div className="flex gap-2">
               <Button variant="secondary" size="icon" onClick={refresh}><RefreshCw size={15} /></Button>
-              <Button onClick={() => setModalOpen(true)}><Plus size={15} /> Nuevo movimiento</Button>
+              <Button onClick={() => setModalOpen(true)}><Plus size={15} /> New entry</Button>
             </div>
           </div>
           <TablaMovimientos rows={todasInversiones} onDelete={handleDelete} loading={loading} />

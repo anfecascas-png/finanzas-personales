@@ -78,7 +78,7 @@ export function FormTransaccion({ open, onClose, onSave, recientes = [], presupu
   async function handleSubmit(e) {
     e.preventDefault()
     if (!form.descripcion || !form.monto || !form.categoria) {
-      setError('Descripción, monto y categoría son obligatorios')
+      setError('Description, amount and category are required')
       return
     }
 
@@ -88,7 +88,7 @@ export function FormTransaccion({ open, onClose, onSave, recientes = [], presupu
       return
     }
     if (excedeLimite && !justificacion.trim()) {
-      setError('Se requiere justificación para exceder el límite del presupuesto fijo')
+      setError('Justification is required to exceed the fixed budget limit')
       return
     }
 
@@ -127,10 +127,10 @@ export function FormTransaccion({ open, onClose, onSave, recientes = [], presupu
     .slice(0, 20)
 
   return (
-    <Modal open={open} onClose={onClose} title="Nueva transacción" size="md">
+    <Modal open={open} onClose={onClose} title="New transaction" size="md">
       <form onSubmit={handleSubmit} className="space-y-4">
 
-        {/* Botón repetir reciente */}
+        {/* Repeat recent button */}
         {recientesUnicos.length > 0 && (
           <div className="relative">
             <button
@@ -139,7 +139,7 @@ export function FormTransaccion({ open, onClose, onSave, recientes = [], presupu
               className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl border border-dashed border-gray-300 dark:border-gray-600 text-xs text-gray-500 dark:text-gray-400 hover:border-brand-400 hover:text-brand-600 transition-colors"
             >
               <History size={13} />
-              Repetir transacción reciente
+              Repeat recent transaction
             </button>
 
             {showRecientes && (
@@ -165,52 +165,41 @@ export function FormTransaccion({ open, onClose, onSave, recientes = [], presupu
           </div>
         )}
 
-        <div className="grid grid-cols-2 gap-3">
-          <Input label="Fecha" type="date" value={form.fecha} onChange={(e) => set('fecha', e.target.value)} />
+        <Input label="Date" type="date" value={form.fecha} onChange={(e) => set('fecha', e.target.value)} />
 
-          {/* Rango de monto */}
-          <div>
-            <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5">Rango de monto</label>
-            <div className="flex flex-wrap gap-1.5">
-              {RANGOS_MONTO.map((r, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => setRango(idx)}
-                  className={cn(
-                    'px-2 py-1 rounded-lg text-xs font-medium border transition-colors',
-                    form.rangoIdx === idx
-                      ? 'bg-brand-500 border-brand-500 text-white'
-                      : 'border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:border-brand-300 hover:text-brand-600'
-                  )}
-                >
-                  {r.label}
-                </button>
-              ))}
-            </div>
+        {/* Amount range */}
+        <div>
+          <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5">Amount range</label>
+          <div className="flex flex-wrap gap-1.5">
+            {RANGOS_MONTO.map((r, idx) => (
+              <button key={idx} type="button" onClick={() => setRango(idx)}
+                className={cn('px-2.5 py-1 rounded-lg text-xs font-medium border transition-colors',
+                  form.rangoIdx === idx
+                    ? 'bg-brand-500 border-brand-500 text-white'
+                    : 'border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:border-brand-300 hover:text-brand-600'
+                )}>{r.label}</button>
+            ))}
           </div>
         </div>
 
-        {/* Monto exacto (editable) */}
+        {/* Exact amount (editable) */}
         <CurrencyInput
-          label="Monto exacto (COP)"
-
-
+          label="Exact amount (COP)"
           value={form.monto}
           onChange={(v) => set('monto', v)}
         />
 
-        <Input label="Descripción" placeholder="ej. Rappi, Netflix, Supermercado..." value={form.descripcion} onChange={(e) => set('descripcion', e.target.value)} />
+        <Input label="Description" placeholder="e.g. Rappi, Netflix, Groceries..." value={form.descripcion} onChange={(e) => set('descripcion', e.target.value)} />
 
         <div className="grid grid-cols-2 gap-3">
-          <Select label="Categoría" value={form.categoria} onChange={(e) => set('categoria', e.target.value)}>
-            <option value="">Seleccionar...</option>
+          <Select label="Category" value={form.categoria} onChange={(e) => set('categoria', e.target.value)}>
+            <option value="">Select...</option>
             {TODAS_CATEGORIAS.map((c) => (
               <option key={c.nombre} value={c.nombre}>{c.nombre}</option>
             ))}
           </Select>
-          <Select label="Subcategoría" value={form.subcategoria} onChange={(e) => set('subcategoria', e.target.value)} disabled={!categoriaActual}>
-            <option value="">Seleccionar...</option>
+          <Select label="Subcategory" value={form.subcategoria} onChange={(e) => set('subcategoria', e.target.value)} disabled={!categoriaActual}>
+            <option value="">Select...</option>
             {categoriaActual?.subcategorias.map((s) => (
               <option key={s} value={s}>{s}</option>
             ))}
@@ -218,10 +207,10 @@ export function FormTransaccion({ open, onClose, onSave, recientes = [], presupu
         </div>
 
         <div className="grid grid-cols-2 gap-3">
-          <Select label="Tipo de gasto" value={form.tipoGasto} onChange={(e) => set('tipoGasto', e.target.value)}>
+          <Select label="Expense type" value={form.tipoGasto} onChange={(e) => set('tipoGasto', e.target.value)}>
             {TIPOS_GASTO.map((t) => <option key={t} value={t}>{t}</option>)}
           </Select>
-          <Select label="Frecuencia" value={form.frecuencia} onChange={(e) => set('frecuencia', e.target.value)}>
+          <Select label="Frequency" value={form.frecuencia} onChange={(e) => set('frecuencia', e.target.value)}>
             {FRECUENCIAS.map((f) => <option key={f} value={f}>{f}</option>)}
           </Select>
         </div>
@@ -229,27 +218,27 @@ export function FormTransaccion({ open, onClose, onSave, recientes = [], presupu
         {equiv && (
           <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl px-4 py-2.5 text-xs text-blue-700 dark:text-blue-300 flex items-center gap-2">
             <span>💡</span>
-            <span>Equivale a <strong>${equiv.toLocaleString('es-CO')}/mes</strong> — se registra el total el día del pago.</span>
+            <span>Equivalent to <strong>${equiv.toLocaleString('es-CO')}/month</strong> — the full amount is recorded on payment day.</span>
           </div>
         )}
 
-        {/* Alerta presupuesto fijo excedido */}
+        {/* Fixed budget exceeded alert */}
         {excedeLimite && (
           <div className="bg-orange-50 dark:bg-orange-900/20 rounded-xl px-4 py-3 text-xs text-orange-700 dark:text-orange-300 border border-orange-200 dark:border-orange-800">
-            <p className="font-semibold mb-1">⚠️ Excede el presupuesto fijo de {form.categoria}</p>
-            <p>Límite: {formatCOP(presupuestoCategoria.limite)} — Monto: {formatCOP(montoNum)}</p>
+            <p className="font-semibold mb-1">⚠️ Exceeds fixed budget for {form.categoria}</p>
+            <p>Limit: {formatCOP(presupuestoCategoria.limite)} — Amount: {formatCOP(montoNum)}</p>
           </div>
         )}
 
-        {/* Justificación cuando excede límite */}
+        {/* Justification when limit exceeded */}
         {showJustificacion && excedeLimite && (
           <div>
             <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5">
-              Justificación (requerida para exceder el límite)
+              Justification (required to exceed the limit)
             </label>
             <input
               type="text"
-              placeholder="ej. Reparación de emergencia, precio anual..."
+              placeholder="e.g. Emergency repair, annual price..."
               value={justificacion}
               onChange={(e) => setJustificacion(e.target.value)}
               className="w-full px-3 py-2 text-sm rounded-lg border border-orange-300 dark:border-orange-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400"
@@ -257,14 +246,14 @@ export function FormTransaccion({ open, onClose, onSave, recientes = [], presupu
           </div>
         )}
 
-        <Input label="Notas (opcional)" placeholder="Observaciones..." value={form.notas} onChange={(e) => set('notas', e.target.value)} />
+        <Input label="Notes (optional)" placeholder="Observations..." value={form.notas} onChange={(e) => set('notas', e.target.value)} />
 
         {error && <p className="text-xs text-red-500 dark:text-red-400">{error}</p>}
 
         <div className="flex gap-2 justify-end pt-1">
-          <Button type="button" variant="secondary" onClick={onClose}>Cancelar</Button>
+          <Button type="button" variant="secondary" onClick={onClose}>Cancel</Button>
           <Button type="submit" loading={loading}>
-            {excedeLimite && !showJustificacion ? 'Continuar →' : 'Guardar'}
+            {excedeLimite && !showJustificacion ? 'Continue →' : 'Save'}
           </Button>
         </div>
       </form>

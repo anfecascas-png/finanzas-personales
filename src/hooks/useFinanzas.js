@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
-import { SHEETS, COLORES_GRAFICA, CATEGORIAS_FIJAS_NOMBRES } from '../config'
+import { SHEETS, COLORES_GRAFICA, CATEGORIAS_FIJAS_NOMBRES, TODAS_CATEGORIAS } from '../config'
 import { useSheets } from './useSheets'
 import { parseMonto, nombreMes } from '../lib/formatters'
 import { groupBy, sumBy, calcularPorcentaje, presupuestoStatus } from '../lib/utils'
@@ -121,14 +121,32 @@ export function useFinanzas(mes, año) {
     })
   })()
 
-  // --- Tendencia últimos 6 meses ---
-  const tendenciaMensual = Array.from({ length: 6 }, (_, i) => {
-    let m = mes - i; let a = año
-    if (m <= 0) { m += 12; a -= 1 }
-    const txM = data.transacciones.filter((t) => String(t.Mes) === String(m) && String(t.Año) === String(a))
-    const ingM = data.ingresos.filter((t) => String(t.Mes) === String(m) && String(t.Año) === String(a))
-    return { mes: nombreMes(m).slice(0, 3), gastos: sumBy(txM, 'Monto'), ingresos: sumBy(ingM, 'Monto') }
-  }).reverse()
+  // --- Tendencia desde Enero 2026 (stacked bar) ---
+  const START_YEAR = 2026, START_MONTH = 1
+  const allMonths = []
+  let _y = START_YEAR, _m = START_MONTH
+  while (_y < año || (_y === año && _m <= mes)) {
+    allMonths.push({ year: _y, month: _m })
+    _m++; if (_m > 12) { _m = 1; _y++ }
+  }
+
+  const TODAS_CATS = TODAS_CATEGORIAS.map((c) => c.nombre)
+
+  const tendenciaMensual = allMonths.map(({ year, month }) => {
+    const txM = data.transacciones.filter((t) => String(t.Mes) === String(month) && String(t.Año) === String(year))
+    const ingM = data.ingresos.filter((t) => String(t.Mes) === String(month) && String(t.Año) === String(year))
+    const invM = data.inversiones.filter((t) => String(t.Mes) === String(month) && String(t.Año) === String(year) && t.Acción === 'Depósito')
+    const entry = {
+      label: `${nombreMes(month).slice(0, 3)}`,
+      ingresos: sumBy(ingM, 'Monto'),
+      gastos: sumBy(txM, 'Monto'),
+      ahorros: sumBy(invM, 'Monto'),
+    }
+    TODAS_CATS.forEach((cat) => {
+      entry[cat] = sumBy(txM.filter((t) => (t['Categoría'] || t.Categoria) === cat), 'Monto')
+    })
+    return entry
+  }).filter((e) => e.ingresos > 0 || e.gastos > 0)
 
   // --- Mura P&L ---
   const muraIngresos = sumBy(muraDelMes.filter((m) => m.Tipo === 'Ingreso'), 'Monto')

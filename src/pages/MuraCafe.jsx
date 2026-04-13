@@ -20,7 +20,7 @@ export function MuraCafe({ mes, año, onMesChange, onAñoChange }) {
   }
 
   async function handleDelete(rowIndex) {
-    if (!confirm('¿Eliminar este movimiento?')) return
+    if (!confirm('Delete this entry?')) return
     await deleteMovimientoMura(rowIndex)
     await refresh()
   }
@@ -40,10 +40,10 @@ export function MuraCafe({ mes, año, onMesChange, onAñoChange }) {
 
         <Card>
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Movimientos del mes</h3>
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">This month</h3>
             <div className="flex gap-2">
               <Button variant="secondary" size="icon" onClick={refresh}><RefreshCw size={15} /></Button>
-              <Button variant="mura" onClick={() => setModalOpen(true)}><Plus size={15} /> Nuevo movimiento</Button>
+              <Button variant="mura" onClick={() => setModalOpen(true)}><Plus size={15} /> New entry</Button>
             </div>
           </div>
           <TablaMura rows={muraDelMes} onDelete={handleDelete} loading={loading} />
