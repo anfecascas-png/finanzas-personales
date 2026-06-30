@@ -1,34 +1,18 @@
-import { SPREADSHEET_NAME, SHEETS, HEADERS, TODAS_CATEGORIAS } from '../config'
+import { FIXED_SPREADSHEET_ID, SHEETS, HEADERS, TODAS_CATEGORIAS } from '../config'
 import {
-  createSpreadsheet,
   getSpreadsheet,
   addSheetTab,
   appendRow,
   batchUpdate,
 } from './googleSheets'
 
-const STORAGE_KEY = 'finanzas_spreadsheet_id'
-
 export function getStoredSpreadsheetId() {
-  return localStorage.getItem(STORAGE_KEY)
+  return FIXED_SPREADSHEET_ID
 }
 
-export function setStoredSpreadsheetId(id) {
-  localStorage.setItem(STORAGE_KEY, id)
-}
+export function setStoredSpreadsheetId() {}
 
-export function clearStoredSpreadsheetId() {
-  localStorage.removeItem(STORAGE_KEY)
-}
-
-async function verifySpreadsheetExists(accessToken, spreadsheetId) {
-  try {
-    await getSpreadsheet(accessToken, spreadsheetId)
-    return true
-  } catch {
-    return false
-  }
-}
+export function clearStoredSpreadsheetId() {}
 
 async function setupSheetHeaders(accessToken, spreadsheetId, sheetTitle, headers) {
   // Style headers: bold + frozen row + background
@@ -73,37 +57,16 @@ async function populateConfigSheet(accessToken, spreadsheetId) {
 }
 
 export async function initializeSpreadsheet(accessToken) {
-  // Check if we already have a stored ID
-  const storedId = getStoredSpreadsheetId()
-  if (storedId) {
-    const exists = await verifySpreadsheetExists(accessToken, storedId)
-    if (exists) return storedId
-    // Stored ID is invalid, create a new one
+  const spreadsheetId = FIXED_SPREADSHEET_ID
+  if (!spreadsheetId) {
+    throw new Error('VITE_SPREADSHEET_ID no está configurado')
   }
 
-  // Create new spreadsheet
-  const spreadsheet = await createSpreadsheet(accessToken, SPREADSHEET_NAME)
-  const spreadsheetId = spreadsheet.spreadsheetId
+  const meta = await getSpreadsheet(accessToken, spreadsheetId)
+  const existingTitles = new Set(meta.sheets.map((s) => s.properties.title))
 
-  // The default "Sheet1" is created automatically — rename it to first sheet
-  await batchUpdate(accessToken, spreadsheetId, [
-    {
-      updateSheetProperties: {
-        properties: {
-          sheetId: spreadsheet.sheets[0].properties.sheetId,
-          title: SHEETS.TRANSACCIONES,
-        },
-        fields: 'title',
-      },
-    },
-  ])
-
-  // Add headers to first sheet
-  await appendRow(accessToken, spreadsheetId, `${SHEETS.TRANSACCIONES}!A1`, HEADERS[SHEETS.TRANSACCIONES])
-  await setupSheetHeaders(accessToken, spreadsheetId, SHEETS.TRANSACCIONES, HEADERS[SHEETS.TRANSACCIONES])
-
-  // Create remaining sheets
-  const remainingSheets = [
+  const allSheets = [
+    SHEETS.TRANSACCIONES,
     SHEETS.PRESUPUESTO,
     SHEETS.INGRESOS,
     SHEETS.MURA,
@@ -111,15 +74,15 @@ export async function initializeSpreadsheet(accessToken) {
     SHEETS.CONFIG,
   ]
 
-  for (const sheetName of remainingSheets) {
+  for (const sheetName of allSheets) {
+    if (existingTitles.has(sheetName)) continue
     await addSheetTab(accessToken, spreadsheetId, sheetName)
     await appendRow(accessToken, spreadsheetId, `${sheetName}!A1`, HEADERS[sheetName])
     await setupSheetHeaders(accessToken, spreadsheetId, sheetName, HEADERS[sheetName])
+    if (sheetName === SHEETS.CONFIG) {
+      await populateConfigSheet(accessToken, spreadsheetId)
+    }
   }
 
-  // Populate config sheet with default categories
-  await populateConfigSheet(accessToken, spreadsheetId)
-
-  setStoredSpreadsheetId(spreadsheetId)
   return spreadsheetId
 }
